@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dice Roller</title>
+        <link rel="stylesheet" href="styles.css" />
+        <script src="main.js"></script>
+    </head>
+    <body>
+        <center>
+            <div id="loginBox">
+                <h1><span role="image" aria-label="Die">&#127922;</span> Roller</h1>
+                <br />
+                <label for="username">Username:</label>
+                <input id="username" type="text" value="U" />
+                <br />
+                <label for="password">Password:</label>
+                <input id="password" type="password" value="P" />
+                <br /><br />
+                <button id="passwordEnter" onclick="confirmLogin();">Enter</button>
+                <br />
+                <h4 id="messageText"></h4>
+            </div>
+            <div id="gameBox">
+                <h1><span role="image" aria-label="Die">&#127922;</span> Roller</h1>
+                <br />
+                <div id="playerOneHalf">
+                    <h2 id="playerOneLevel"><span id="playerOneNameDisplay">Player One</span>: <span id="playerOneScore"></span></h2>
+                    <h1 id="playerOneDice">0</h1><br />
+                    <div id="playerOneDiceDisplay" class="visualRoll"></div>
+                    <label for="playerOneName">Name:</label>
+                    <input type="text" placeholder="Player One" id="playerOneName" />
+                    <button id="playerOneRoll" onclick="playerRoll('playerOne');">Roll!</button>
+                </div>
+                <div id="playerTwoHalf">
+                    <h2 id="playerTwoLevel"><span id="playerTwoNameDisplay">Player Two</span>: <span id="playerTwoScore"></span></h2>
+                    <h1 id="playerTwoDice">0</h1><br />
+                    <div id="playerTwoDiceDisplay" class="visualRoll"></div>
+                    <label for="playerTwoName">Name:</label>
+                    <input type="text" placeholder="Player Two" id="playerTwoName" />
+                    <button id="playerTwoRoll" onclick="playerRoll('playerTwo');">Roll!</button>
+                </div>
+            </div>
+            <div id="winnerBox">
+                <h1><span role="image" aria-label="Die">&#127922;</span> Roller</h1>
+                <br />
+                <div id="winnerText">
+                    <h2>Winner: <span id="winnerName"></span></h2>
+                    <h3>Want to play again?</h3>
+                    <button id="playerAgain" onclick="playAgain();">New game!</button>
+                </div>
+            </div>
+        </center>
+    </body>
+    <script>
+        document.body.onload = function(){
+            startLogin();
+        };
+    </script>
+</html>

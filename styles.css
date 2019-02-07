@@ -1,0 +1,43 @@
+* {
+    /* Set the font to be used for the page */
+    font-family: "Segoe UI", "monospace", sans-serif;
+}
+
+#loginBox, #gameBox, #winnerBox {
+    /* Do not display the box as it is displayed through javascript once the page has loaded */
+    display: none;
+}
+
+#messageText {
+    /* Set the text to red on any authentication messages or errors */
+    color: red;
+}
+
+#playerOneHalf, #playerTwoHalf {
+    /* Set each player's content to take up half of the page */
+    width: 50%;
+}
+
+#playerOneHalf {
+    /* Set player one's content to be displayed on the left */
+    float: left;
+}
+
+#playerTwoHalf {
+    /* Set player one's content to be displayed on the right */
+    float: right;
+}
+
+.visualRoll {
+    /* Center the dice to display them in the center of the display area */
+    display: flex;
+    justify-content: center;
+    /* Set the height and width of the box which contains the dice */
+    height: 150px;
+    width: 150px;
+    /* Add a bottom margin to allow a gap between the dice roll and the button */
+    margin-bottom: 30px;
+    /* Set the size of the text to fit within the width and height while still remaining large and visible */
+    font-size: 310px;
+    line-height: 130px;
+}
