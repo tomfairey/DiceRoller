@@ -28,6 +28,14 @@
     float: right;
 }
 
+#scoreboard {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
 .visualRoll {
     /* Center the dice to display them in the center of the display area */
     display: flex;

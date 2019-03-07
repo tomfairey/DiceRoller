@@ -1,6 +1,6 @@
 // Declare the username and password as variables in Base64 encoding so it is not directly viewable by the user
-var authUsername = "VQ==";
-var authPassword = "UA==";
+var authUsername = "VQ=="; // U
+var authPassword = "UA=="; // P
 
 // Declare an array with the unicode characters for displaying the dice
 var diceCharacters = ["&#9856;", "&#9857;", "&#9858;", "&#9859;", "&#9860;", "&#9861;"];
@@ -67,14 +67,34 @@ function storeWinner(name, score) {
     }
 }
 
+function playAgain() {
+    document.getElementById("winnerBox").style.display = "none";
+    document.getElementById("playerOneName").value = "";
+    document.getElementById("playerTwoName").value = "";
+    document.getElementById("playerOneNameDisplay").innerHTML = "Player One";
+    document.getElementById("playerTwoNameDisplay").innerHTML = "Player Two";
+    document.getElementById("playerOneName").disabled = false;
+    document.getElementById("playerTwoName").disabled = false;
+    document.getElementById("playerOneRoll").disabled = false;
+    document.getElementById("playerTwoRoll").disabled = false;
+    startGame();
+}
+
 function startGame() {
     // Show the div containing the game to allow for user interaction
     document.getElementById("gameBox").style.display = "block";
-    // Set both player's scores and amount of rolls to 0
+    // Set both player's scores and amount of rolls to 5
     window.playerOneScore = 0;
-    window.playerOneRoles = 0;
+    window.playerOneRoles = 5;
     window.playerTwoScore = 0;
-    window.playerTwoRoles = 0;
+    window.playerTwoRoles = 5;
+    // Display scoreboard if it exists
+    if(localStorage.getItem('scoreboard')){
+        var scoreboard = JSON.parse(localStorage.getItem('scoreboard'));
+        scoreboard.forEach(function(data){
+            
+        });
+    };
 };
 
 function playerRoll(player) {
@@ -105,13 +125,19 @@ function playerRoll(player) {
                 // If the sum of the roll is even then add ten points to the score as we are required to do this
                 if (rollSum % 2 == 0) {
                     rollSum = rollSum + 10;
+                    console.log("EVEN ROLE:");
+                    console.log(window[player+"Name"]+" has 10 points added...");
                 // If the sum of the roll is odd then take away five points as asked for by the brief
                 } else if (rollSum % 2 == 1) {
                     rollSum = rollSum - 5;
+                    console.log("ODD ROLE:");
+                    console.log(window[player+"Name"]+" has 5 points removed...");
                 }
                 // If you roll a double then gain an extra roll as asked for by the brief
                 if (thisRoll[3]) {
-                    window[player+"Roles"] = window[player+"Roles"] - 1;
+                    window[player+"Roles"] = window[player+"Roles"] + 1;
+                    console.log("DOUBLE ROLLED:");
+                    console.log(window[player+"Name"]+" has an extra role...");
                 }
                 // Add the current roll score to the overall score
                 window[player+"Score"] = window[player+"Score"] + rollSum;
@@ -122,29 +148,37 @@ function playerRoll(player) {
                 // Display the user's score to the user
                 document.getElementById(player + "Dice").innerHTML = window[player+"Score"];
                 // Count the roll so that the user has a limit
-                window[player+"Roles"] = window[player+"Roles"] + 1;
+                window[player+"Roles"] = window[player+"Roles"] - 1;
                 // Display the ASCII character dice as a visual representation for the user
                 document.getElementById(player + "DiceDisplay").innerHTML = diceCharacters[diceOneArrayValue] + diceCharacters[diceTwoArrayValue];
                 // If the player has had less than 5 rolls then allow them to make another roll next
-                if (window[player+"Roles"] < 5) {
+                if (window[player+"Roles"] > 0) {
                     // Enable the button so a role may be made by the user
                     document.getElementById(player+"Roll").disabled = false;
                 } else {
                     // If both users has had five or more rolls then see if there is a winner
-                    if (window["playerOneRoles"] >= 5 && window["playerTwoRoles"] >= 5) {
-                        if (window["playerOneRoles"] > window["playerTwoRoles"]) {
+                    if (window["playerOneRoles"] <= 0 && window["playerTwoRoles"] <= 0) {
+                        if (window["playerOneScore"] > window["playerTwoScore"]) {
                             // P1 WIN SITUATION
+                            console.log("WINNER:");
+                            console.log("Player 1 has won...");
                             // Store the winner's name and score in JavaScript local storage within the browser for the scoreboard
                             storeWinner(window["playerOneName"], window["playerOneScore"]);
-                        } else if (window["playerOneRoles"] < window["playerTwoRoles"]) {
+                        } else if (window["playerOneScore"] < window["playerTwoScore"]) {
                             // P2 WIN SITUATION
+                            console.log("WINNER:");
+                            console.log("Player 2 has won...");
                             // Store the winner's name and score in JavaScript local storage within the browser for the scoreboard
                             storeWinner(window["playerTwoName"], window["playerTwoScore"]);
-                        } else if (window["playerOneRoles"] === window["playerTwoRoles"]) {
+                        } else if (window["playerOneScore"] === window["playerTwoScore"]) {
                             // TIE SITUATION
                             // Enable the button for both users so a role may be made by both the users to break the tie
+                            window[player+"Roles"] = window["playerOneRoles"] + 1;
+                            window[player+"Roles"] = window["playerTwoRoles"] + 1;
                             document.getElementById("playerOneRoll").disabled = false;
                             document.getElementById("playerTwoRoll").disabled = false;
+                            console.log("TIE SITUATION:");
+                            console.log("Each player now has one extra role...");
                         }
                     }
                 }
