@@ -38,6 +38,10 @@ function confirmLogin() {
 
 };
 
+function scoreBoardSort(a,b){
+    return b[1]-a[1];
+}
+
 function storeWinner(name, score) {
     // Hide roll boxes
     document.getElementById("gameBox").style.display = "none";
@@ -49,22 +53,18 @@ function storeWinner(name, score) {
     if(localStorage.getItem('scoreboard')){
         // Get the JSON data from local storage and store in variable as an array
         var scoreboard = JSON.parse(localStorage.getItem('scoreboard'));
-        // Add a new record to the end of the array
-        scoreboard.push(name, score);
-        // Encode the array with the new record as JSON
-        scoreboard = JSON.stringify(scoreboard);
-        // Save the JSON to the local storage overwriting the previous record
-        localStorage.setItem('scoreboard', scoreboard);
     } else {
          // Make new variable as an array to store the data in
         var scoreboard = [];
-        // Add a new record to the end of the array
-        scoreboard.push(name, score);
-        // Encode the array with the new record as JSON
-        scoreboard = JSON.stringify(scoreboard);
-        // Save the JSON to the local storage
-        localStorage.setItem('scoreboard', scoreboard);
     }
+    // Add a new record to the end of the array
+    scoreboard.push([name, score]);
+    scoreboard.sort(scoreBoardSort());
+    console.log(scoreboard);
+    // Encode the array with the new record as JSON
+    scoreboard = JSON.stringify(scoreboard);
+    // Save the JSON to the local storage
+    localStorage.setItem('scoreboard', scoreboard);
 }
 
 function playAgain() {
@@ -91,8 +91,9 @@ function startGame() {
     // Display scoreboard if it exists
     if(localStorage.getItem('scoreboard')){
         var scoreboard = JSON.parse(localStorage.getItem('scoreboard'));
-        scoreboard.forEach(function(data){
-            
+        scoreboard.forEach(function(data, i){
+            console.log(i, data);
+            //console.log(data[0], data[1]);
         });
     };
 };
