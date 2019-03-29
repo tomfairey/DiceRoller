@@ -36,6 +36,10 @@
     bottom: 0;
 }
 
+#scoreboard ol {
+    width: 350px;
+}
+
 .visualRoll {
     /* Center the dice to display them in the center of the display area */
     display: flex;

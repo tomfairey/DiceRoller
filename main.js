@@ -8,7 +8,7 @@ var diceCharacters = ["&#9856;", "&#9857;", "&#9858;", "&#9859;", "&#9860;", "&#
 function startLogin() {
     // Once the page loads show the div that contains the login box to allow the user to interact and login
     document.getElementById("loginBox").style.display = "block";
-};
+}
 
 function confirmLogin() {
     // Set the username that was entered as a variable we can access
@@ -35,12 +35,13 @@ function confirmLogin() {
         // Tell the user that the username is incorrect
         document.getElementById("messageText").innerText = "Incorrect username...";
     };
-
-};
-
-function scoreBoardSort(a,b){
-    return b[1]-a[1];
 }
+
+/*
+function scoreBoardSort(a,b){
+    return a[1] - b[1];
+}
+*/
 
 function storeWinner(name, score) {
     // Hide roll boxes
@@ -59,7 +60,8 @@ function storeWinner(name, score) {
     }
     // Add a new record to the end of the array
     scoreboard.push([name, score]);
-    scoreboard.sort(scoreBoardSort());
+    // Sort the array so that they are in ascending numerical order
+    scoreboard.sort(function(a, b){return b[1] - a[1]} /* scoreBoardSort(a, b) */);
     console.log(scoreboard);
     // Encode the array with the new record as JSON
     scoreboard = JSON.stringify(scoreboard);
@@ -89,12 +91,26 @@ function startGame() {
     window.playerTwoScore = 0;
     window.playerTwoRoles = 5;
     // Display scoreboard if it exists
-    if(localStorage.getItem('scoreboard')){
+    if(localStorage.getItem('scoreboard')) {
         var scoreboard = JSON.parse(localStorage.getItem('scoreboard'));
+        var scores;
+        if(scoreboard.length < 5) {
+            scores = scoreboard.length;
+        } else if (scoreboard.length >= 5) {
+            scores = 5;
+        }
+        window["x"] = 0;
+        scoresOutput = "<ol>";
         scoreboard.forEach(function(data, i){
-            console.log(i, data);
-            //console.log(data[0], data[1]);
+            if(window["x"] < scores) {
+                scoresOutput = scoresOutput + "<li>"+data[0]+" - "+data[1]+"</li>";
+                //console.log(i, data);
+                //console.log(data[0], data[1]);
+                window["x"] = window["x"] + 1;
+            }
         });
+        scoresOutput = scoresOutput + "</ol>";
+        document.getElementById("scoreboard").innerHTML = scoresOutput;
     };
 };
 
